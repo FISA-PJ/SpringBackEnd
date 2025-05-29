@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>청약Fit - 맞춤형 청약 & 대출 추천 서비스</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo" onclick="showSection('home')">
+                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 20L140 50V90L120 105V150L100 165L80 150V105L60 90V50L100 20Z" stroke="#2c3e50" stroke-width="8" fill="none"/>
+                    <path d="M80 70L95 85L120 60" stroke="#3498db" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="140" cy="130" r="15" fill="#3498db"/>
+                    <text x="100" y="190" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#2c3e50">fit</text>
+                </svg>
+                청약Fit
+            </a>
+            
+            <ul class="nav-menu">
+                <li><a onclick="showSection('home')">홈</a></li>
+                <li><a onclick="showSection('recommendations')">맞춤공고</a></li>
+                <li><a onclick="showSection('loans')">대출추천</a></li>
+                <li><a onclick="showSection('mypage')">마이페이지</a></li>
+            </ul>
+            
+            <div class="auth-buttons">
+                <button class="btn btn-outline" onclick="showModal('login')">로그인</button>
+                <button class="btn btn-primary" onclick="showModal('signup')">회원가입</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home-section">
+        <h1>나에게 딱 맞는 청약과 대출을 찾아보세요</h1>
+        <p>AI 기반 맞춤형 추천으로 당신의 주거 계획을 완성하세요</p>
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="지역, 아파트명, 청약 조건을 검색해보세요">
+            <button class="search-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="m21 21-4.35-4.35"/>
+                </svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-section">
+        <h2 class="section-title">청약Fit이 제공하는 서비스</h2>
+        
+        <div class="services">
+            <div class="service-card" onclick="showSection('recommendations')">
+                <div class="service-icon">🏠</div>
+                <h3>맞춤형 청약 공고</h3>
+                <p>당신의 조건과 선호도를 분석하여 최적의 청약 공고를 추천해드립니다. 놓치지 마세요!</p>
+                <a href="#" class="service-link">
+                    지금 확인하기
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="service-card" onclick="showSection('loans')">
+                <div class="service-icon">💰</div>
+                <h3>맞춤 대출 상품</h3>
+                <p>청약 당첨 후 필요한 대출 상품을 한눈에 비교하고 최적의 조건을 찾아보세요.</p>
+                <a href="#" class="service-link">
+                    대출 상품 보기
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Recommendations Section -->
+    <section class="page-section" id="recommendations-section" style="display: none;">
+        <!-- Summary Box -->
+        <div class="summary-box">
+            <h3 class="summary-title">
+                🎯 내 정보 요약 & 추천 근거
+            </h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <h4>🎯 내 정보 요약</h4>
+                    <p>29세 / 무주택 / 수도권 거주</p>
+                    <small>자산 3.2억원</small>
+                </div>
+                <div class="summary-item">
+                    <h4>🧠 추천 기준</h4>
+                    <p>총 23건 추천</p>
+                    <small>자산 + 나이 + 거주지 + 무주택 여부 기준</small>
+                </div>
+                <div class="summary-item">
+                    <h4>🏆 가산점 정보</h4>
+                    <p>예상 가점: 34점</p>
+                    <small>무주택 기간, 부양가족 등 반영</small>
+                </div>
+                <div class="summary-item">
+                    <h4>🔍 현재 필터</h4>
+                    <p>서울 / 60㎡ 이상</p>
+                    <small>입주 2028년 이전</small>
+                </div>
+            </div>
+            <div class="summary-actions">
+                <button onclick="resetFilters()">📌 필터 초기화</button>
+                <button onclick="openFilterSettings()">⚙️ 필터 재설정</button>
+                <button onclick="updateMyInfo()">📝 내 정보 수정</button>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section" id="filterSection">
+            <h3 class="filter-title">
+                🔍 상세 필터
+            </h3>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label for="region">지역</label>
+                    <select id="region">
+                        <option value="">전체</option>
+                        <option value="seoul" selected>서울</option>
+                        <option value="gyeonggi">경기</option>
+                        <option value="incheon">인천</option>
+                        <option value="busan">부산</option>
+                        <option value="daegu">대구</option>
+                        <option value="other">기타</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="district">구/시</label>
+                    <select id="district">
+                        <option value="">전체</option>
+                        <option value="gangnam">강남구</option>
+                        <option value="songpa">송파구</option>
+                        <option value="seocho">서초구</option>
+                        <option value="mapo">마포구</option>
+                        <option value="other">기타</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="area">전용면적</label>
+                    <select id="area">
+                        <option value="">전체</option>
+                        <option value="under60">60㎡ 미만</option>
+                        <option value="60to84" selected>60~84㎡</option>
+                        <option value="85to100">85~100㎡</option>
+                        <option value="over100">100㎡ 초과</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="price">분양가</label>
+                    <select id="price">
+                        <option value="">전체</option>
+                        <option value="under5">5억원 미만</option>
+                        <option value="5to7">5~7억원</option>
+                        <option value="7to10">7~10억원</option>
+                        <option value="over10">10억원 초과</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="moveInDate">입주예정</label>
+                    <select id="moveInDate">
+                        <option value="">전체</option>
+                        <option value="2027" selected>2027년</option>
+                        <option value="2028">2028년</option>
+                        <option value="2029">2029년</option>
+                        <option value="after2030">2030년 이후</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="applicationType">청약유형</label>
+                    <select id="applicationType">
+                        <option value="">전체</option>
+                        <option value="firstTime">생애최초</option>
+                        <option value="newlywed">신혼부부</option>
+                        <option value="general">일반공급</option>
+                        <option value="special">특별공급</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-actions">
+                <button class="btn btn-secondary" onclick="resetFilters()">초기화</button>
+                <button class="btn btn-primary" onclick="applyFilters()">필터 적용</button>
+            </div>
+        </div>
+
+        <div class="recommendations">
+            <h2 class="section-title">맞춤 청약 공고</h2>
+            <div class="tab-container">
+                <button class="tab active" onclick="switchTab(this, 'new')">최신 공고</button>
+                <button class="tab" onclick="switchTab(this, 'recommended')">추천 공고</button>
+                <button class="tab" onclick="switchTab(this, 'closing')">마감 임박</button>
+            </div>
+            
+            <div class="map-container">
+                <div class="map-sidebar">
+                    <div class="property-list-item" onclick="selectProperty(1, this)">
+                        <div class="property-header">
+                            <div class="property-title">강남 래미안 원베일리</div>
+                            <span class="card-badge hot">HOT</span>
+                        </div>
+                        <div class="property-price">분양가 9억 5천만원</div>
+                        <div class="property-details">
+                            <span>84㎡</span>
+                            <span>강남구</span>
+                            <span>6.15 청약</span>
+                        </div>
+                    </div>
+                    
+                    <div class="property-list-item" onclick="selectProperty(2, this)">
+                        <div class="property-header">
+                            <div class="property-title">판교 알파돔시티</div>
+                            <span class="card-badge">추천</span>
+                        </div>
+                        <div class="property-price">분양가 7억 2천만원</div>
+                        <div class="property-details">
+                            <span>59㎡</span>
+                            <span>성남시</span>
+                            <span>6.20 청약</span>
+                        </div>
+                    </div>
+                    
+                    <div class="property-list-item" onclick="selectProperty(3, this)">
+                        <div class="property-header">
+                            <div class="property-title">송파 헬리오시티</div>
+                            <span class="card-badge">추천</span>
+                        </div>
+                        <div class="property-price">분양가 8억 8천만원</div>
+                        <div class="property-details">
+                            <span>74㎡</span>
+                            <span>송파구</span>
+                            <span>6.18 청약</span>
+                        </div>
+                    </div>
+                    
+                    <div class="property-list-item" onclick="selectProperty(4, this)">
+                        <div class="property-header">
+                            <div class="property-title">마포 래미안 푸르지오</div>
+                            <span class="card-badge">신규</span>
+                        </div>
+                        <div class="property-price">분양가 10억 2천만원</div>
+                        <div class="property-details">
+                            <span>99㎡</span>
+                            <span>마포구</span>
+                            <span>6.25 청약</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="map-view" id="mapView">
+                    <!-- Map markers -->
+                    <div class="map-marker" style="top: 60%; left: 65%;" onclick="selectProperty(1)">
+                        <span>1</span>
+                    </div>
+                    <div class="map-marker" style="top: 70%; left: 70%;" onclick="selectProperty(2)">
+                        <span>2</span>
+                    </div>
+                    <div class="map-marker" style="top: 55%; left: 60%;" onclick="selectProperty(3)">
+                        <span>3</span>
+                    </div>
+                    <div class="map-marker" style="top: 45%; left: 45%;" onclick="selectProperty(4)">
+                        <span>4</span>
+                    </div>
+                    
+                    <!-- Property detail panel -->
+                    <div class="property-detail-panel" id="propertyDetail">
+                        <h3 id="detailTitle">강남 래미안 원베일리</h3>
+                        <div class="property-details" style="flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                            <div class="loan-info-row">
+                                <span class="loan-label">분양가</span>
+                                <span class="loan-value" id="detailPrice">9억 5천만원</span>
+                            </div>
+                            <div class="loan-info-row">
+                                <span class="loan-label">평형</span>
+                                <span class="loan-value" id="detailSize">84㎡ (25평)</span>
+                            </div>
+                            <div class="loan-info-row">
+                                <span class="loan-label">청약일정</span>
+                                <span class="loan-value" id="detailDate">2025.06.15</span>
+                            </div>
+                            <div class="loan-info-row">
+                                <span class="loan-label">예상 경쟁률</span>
+                                <span class="loan-value" id="detailCompetition">125:1</span>
+                            </div>
+                            <div class="loan-info-row">
+                                <span class="loan-label">입주예정</span>
+                                <span class="loan-value" id="detailMoveIn">2028년 3월</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">상세정보 보기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loan Section -->
+    <section class="page-section" id="loans-section" style="display: none;">
+        <!-- Summary Box for Loans -->
+        <div class="summary-box">
+            <h3 class="summary-title">
+                💰 내 대출 정보 요약
+            </h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <h4>💳 신용점수</h4>
+                    <p>820점 (우수)</p>
+                    <small>KB신용정보 기준</small>
+                </div>
+                <div class="summary-item">
+                    <h4>💼 소득정보</h4>
+                    <p>연소득 7,200만원</p>
+                    <small>근로소득 기준</small>
+                </div>
+                <div class="summary-item">
+                    <h4>🏦 추천 상품</h4>
+                    <p>12개 상품</p>
+                    <small>신용도 + 소득 + 나이 기준</small>
+                </div>
+                <div class="summary-item">
+                    <h4>🎯 예상 한도</h4>
+                    <p>최대 4.5억원</p>
+                    <small>DSR 40% 기준</small>
+                </div>
+            </div>
+            <div class="summary-actions">
+                <button onclick="resetLoanFilters()">📌 필터 초기화</button>
+                <button onclick="openLoanCalculator()">🧮 대출 계산기</button>
+                <button onclick="updateIncomeInfo()">📝 소득정보 수정</button>
+            </div>
+        </div>
+
+        <!-- Loan Filter Section -->
+        <div class="filter-section">
+            <h3 class="filter-title">
+                🔍 대출 상품 필터
+            </h3>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label for="loanType">대출종류</label>
+                    <select id="loanType">
+                        <option value="">전체</option>
+                        <option value="mortgage">주택담보대출</option>
+                        <option value="jeonse">전세자금대출</option>
+                        <option value="policy">정책대출</option>
+                        <option value="credit">신용대출</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="bank">은행</label>
+                    <select id="bank">
+                        <option value="">전체</option>
+                        <option value="kb">KB국민은행</option>
+                        <option value="sh">신한은행</option>
+                        <option value="wr">우리은행</option>
+                        <option value="hn">하나은행</option>
+                        <option value="other">기타</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="interestRate">금리범위</label>
+                    <select id="interestRate">
+                        <option value="">전체</option>
+                        <option value="under3">3% 미만</option>
+                        <option value="3to4">3~4%</option>
+                        <option value="4to5">4~5%</option>
+                        <option value="over5">5% 이상</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="loanLimit">대출한도</label>
+                    <select id="loanLimit">
+                        <option value="">전체</option>
+                        <option value="under2">2억 미만</option>
+                        <option value="2to3">2~3억</option>
+                        <option value="3to5">3~5억</option>
+                        <option value="over5">5억 이상</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="loanPeriod">대출기간</label>
+                    <select id="loanPeriod">
+                        <option value="">전체</option>
+                        <option value="under10">10년 미만</option>
+                        <option value="10to20">10~20년</option>
+                        <option value="20to30">20~30년</option>
+                        <option value="over30">30년 초과</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="specialBenefit">특별혜택</label>
+                    <select id="specialBenefit">
+                        <option value="">전체</option>
+                        <option value="newlywed">신혼부부</option>
+                        <option value="firstTime">생애최초</option>
+                        <option value="youngAdult">청년</option>
+                        <option value="multiChild">다자녀</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-actions">
+                <button class="btn btn-secondary" onclick="resetLoanFilters()">초기화</button>
+                <button class="btn btn-primary" onclick="applyLoanFilters()">필터 적용</button>
+            </div>
+        </div>
+
+        <div class="recommendations">
+            <h2 class="section-title">맞춤 대출 상품</h2>
+            <div class="tab-container">
+                <button class="tab active" onclick="switchTab(this, 'mortgage')">주택담보대출</button>
+                <button class="tab" onclick="switchTab(this, 'jeonse')">전세자금대출</button>
+                <button class="tab" onclick="switchTab(this, 'policy')">정책대출</button>
+            </div>
+            
+            <div class="recommendation-grid">
+                <div class="loan-card">
+                    <div class="loan-card-header">
+                        <div class="loan-bank-name">KB국민은행</div>
+                        <div class="loan-product-name">KB 주택담보대출</div>
+                        <span class="loan-highlight">최저금리</span>
+                    </div>
+                    <div class="loan-card-body">
+                        <div class="loan-info-row">
+                            <span class="loan-label">대출금리</span>
+                            <span class="loan-rate">3.5%</span>
+                        </div>
+                        <div class="loan-info-row">
+                            <span class="loan-label">대출한도</span>
+                            <span class="loan-value">최대 5억원</span>
+                        </div>
+                        <div class="loan-info-row">
+                            <span class="loan-label">대출기간</span>
+                            <span class="loan-value">최대 30년</span>
+                        </div>
+                        <div class="loan-benefits">
+                            <div class="loan-benefits-title">주요혜택</div>
+                            <div class="loan-benefits-list">
+                                <span class="benefit-tag">중도상환 수수료 면제</span>
+                                <span class="benefit-tag">우대금리 0.3%</span>
+                                <span class="benefit-tag">온라인 신청</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="loan-card">
+                    <div class="loan-card-header" style="background: linear-gradient(135deg, #56CCF2 0%, #2F80ED 100%);">
+                        <div class="loan-bank-name">신한은행</div>
+                        <div class="loan-product-name">신한 전세자금대출</div>
+                        <span class="loan-highlight">신혼부부 특화</span>
+                    </div>
+                    <div class="loan-card-body">
+                        <div class="loan-info-row">
+                            <span class="loan-label">대출금리</span>
+                            <span class="loan-rate">3.2%</span>
+                        </div>
+                        <div class="loan-info-row">
+                            <span class="loan-label">대출한도</span>
+                            <span class="loan-value">최대 3억원</span>
+                        </div>
+                        <div class="loan-info-row">
+                            <span class="loan-label">대출기간</span>
+                            <span class="loan-value">최대 2년(4회연장)</span>
+                        </div>
+                        <div class="loan-benefits">
+                            <div class="loan-benefits-title">주요혜택</div>
+                            <div class="loan-benefits-list">
+                                <span class="benefit-tag">신혼부부 우대 0.5%</span>
+                                <span class="benefit-tag">보증료 지원</span>
+                                <span class="benefit-tag">간편 연장</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="loan-card">
+                    <div class="loan-card-header" style="background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);">
+                        <div class="loan-bank-name">주택도시기금</div>
+                        <div class="loan-product-name">디딤돌대출</div>
+                        <span class="loan-highlight">정책금융</span>
+                    </div>
+                    <div class="loan-card-body">
+                        <div class="loan-info-row">
+                            <span class="loan-label">대출금리</span>
+                            <span class="loan-rate">2.15%</span>
+                        </div>
+                        <div class="loan-info-row">
+                            <span class="loan-label">대출한도</span>
+                            <span class="loan-value">최대 2.5억원</span>
+                        </div>
+                        <div class="loan-info-row">
+                            <span class="loan-label">대출기간</span>
+                            <span class="loan-value">10년/15년/20년/30년</span>
+                        </div>
+                        <div class="loan-benefits">
+                            <div class="loan-benefits-title">주요혜택</div>
+                            <div class="loan-benefits-list">
+                                <span class="benefit-tag">생애최초 우대</span>
+                                <span class="benefit-tag">다자녀 추가우대</span>
+                                <span class="benefit-tag">청년 우대</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- My Page -->
+    <section class="page-section" id="mypage-section" style="display: none;">
+        <div class="mypage-container">
+            <div class="mypage-sidebar">
+                <div class="profile-section">
+                    <div class="profile-avatar">김</div>
+                    <h3>김청약 님</h3>
+                    <p>일반회원</p>
+                </div>
+                <ul class="menu-list">
+                    <li class="active">위시리스트</li>
+                    <li>나의 청약 내역</li>
+                    <li>대출 상담 내역</li>
+                    <li>알림 설정</li>
+                    <li>회원 정보 수정</li>
+                </ul>
+            </div>
+            
+            <div class="mypage-content">
+                <h3>나의 위시리스트</h3>
+                <div class="wishlist-grid">
+                    <div class="wishlist-item">
+                        <button class="wishlist-remove">×</button>
+                        <h4>강남 래미안 원베일리</h4>
+                        <p>서울시 강남구 | 84㎡</p>
+                        <p>청약일: 2025.06.15</p>
+                        <p style="color: var(--accent-color); font-weight: bold;">D-10</p>
+                    </div>
+                    
+                    <div class="wishlist-item">
+                        <button class="wishlist-remove">×</button>
+                        <h4>판교 알파돔시티</h4>
+                        <p>경기도 성남시 | 59㎡</p>
+                        <p>청약일: 2025.06.20</p>
+                        <p style="color: var(--accent-color); font-weight: bold;">D-15</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot FAB -->
+    <div class="chatbot-fab" onclick="toggleChat()">
+        <svg viewBox="0 0 24 24">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <h4>청약Fit AI 상담사</h4>
+            <button onclick="toggleChat()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">×</button>
+        </div>
+        <div class="chat-body">
+            <div style="background: #f1f3f4; padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
+                안녕하세요! 청약과 대출에 대해 궁금하신 점이 있으신가요? 무엇이든 물어보세요! 😊
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" placeholder="메시지를 입력하세요...">
+            <button class="chat-send">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Login/Signup Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">로그인</h2>
+            </div>
+            <form id="authForm">
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group" id="nameGroup" style="display: none;">
+                    <label for="name">이름</label>
+                    <input type="text" id="name">
+                </div>
+                <div class="form-group" id="phoneGroup" style="display: none;">
+                    <label for="phone">전화번호</label>
+                    <div class="input-group phone-input-group">
+                        <input type="text" id="phone1" placeholder="010" maxlength="3">
+                        <span>-</span>
+                        <input type="text" id="phone2" placeholder="0000" maxlength="4">
+                        <span>-</span>
+                        <input type="text" id="phone3" placeholder="0000" maxlength="4">
+                    </div>
+                </div>
+                <div class="form-group" id="ssnGroup" style="display: none;">
+                    <label for="ssn">주민등록번호</label>
+                    <div class="input-group ssn-input-group">
+                        <input type="text" id="ssn1" placeholder="생년월일 6자리" maxlength="6">
+                        <span>-</span>
+                        <input type="password" id="ssn2" placeholder="뒷자리 7자리" maxlength="7">
+                    </div>
+                </div>
+                <button type="submit" class="form-submit" id="submitBtn">로그인</button>
+            </form>
+            <div class="form-footer">
+                <p id="toggleText">
+                    계정이 없으신가요? <a href="#" onclick="toggleAuthMode()">회원가입</a>
+                </p>
+                <p style="margin-top: 1rem;">
+                    <a href="#" onclick="closeModal()">닫기</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>청약Fit</h4>
+                <a href="#">회사소개</a>
+                <a href="#">이용약관</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">고객센터</a>
+            </div>
+            <div class="footer-section">
+                <h4>서비스</h4>
+                <a href="#">맞춤 청약 공고</a>
+                <a href="#">대출 상품 추천</a>
+                <a href="#">AI 상담 서비스</a>
+                <a href="#">청약 가이드</a>
+            </div>
+            <div class="footer-section">
+                <h4>고객지원</h4>
+                <a href="#">자주 묻는 질문</a>
+                <a href="#">1:1 문의</a>
+                <a href="#">공지사항</a>
+                <a href="#">이벤트</a>
+            </div>
+            <div class="footer-section">
+                <h4>연락처</h4>
+                <p>대표전화: 1577-1234</p>
+                <p>이메일: info@cheongyakfit.com</p>
+                <p>평일 09:00 - 18:00</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Property selection
+        function selectProperty(id, element) {
+            // Remove active class from all items
+            document.querySelectorAll('.property-list-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to clicked item
+            if (element) {
+                element.classList.add('active');
+            } else {
+                // If called from map marker, find the corresponding list item
+                document.querySelectorAll('.property-list-item')[id - 1].classList.add('active');
+            }
+            
+            // Show property detail
+            const detailPanel = document.getElementById('propertyDetail');
+            detailPanel.classList.add('active');
+            
+            // Update detail content based on property ID
+            const properties = {
+                1: {
+                    title: '강남 래미안 원베일리',
+                    price: '9억 5천만원',
+                    size: '84㎡ (25평)',
+                    date: '2025.06.15',
+                    competition: '125:1',
+                    moveIn: '2028년 3월'
+                },
+                2: {
+                    title: '판교 알파돔시티',
+                    price: '7억 2천만원',
+                    size: '59㎡ (18평)',
+                    date: '2025.06.20',
+                    competition: '89:1',
+                    moveIn: '2028년 6월'
+                },
+                3: {
+                    title: '송파 헬리오시티',
+                    price: '8억 8천만원',
+                    size: '74㎡ (22평)',
+                    date: '2025.06.18',
+                    competition: '156:1',
+                    moveIn: '2028년 5월'
+                },
+                4: {
+                    title: '마포 래미안 푸르지오',
+                    price: '10억 2천만원',
+                    size: '99㎡ (30평)',
+                    date: '2025.06.25',
+                    competition: '98:1',
+                    moveIn: '2028년 8월'
+                }
+            };
+            
+            const property = properties[id];
+            document.getElementById('detailTitle').textContent = property.title;
+            document.getElementById('detailPrice').textContent = property.price;
+            document.getElementById('detailSize').textContent = property.size;
+            document.getElementById('detailDate').textContent = property.date;
+            document.getElementById('detailCompetition').textContent = property.competition;
+            document.getElementById('detailMoveIn').textContent = property.moveIn;
+        }
+
+        // Toggle chat window
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.classList.toggle('active');
+        }
+
+        // Show/Hide sections
+        function showSection(section) {
+            // Hide all sections
+            document.getElementById('home-section').style.display = 'none';
+            document.getElementById('main-section').style.display = 'none';
+            document.getElementById('recommendations-section').style.display = 'none';
+            document.getElementById('loans-section').style.display = 'none';
+            document.getElementById('mypage-section').style.display = 'none';
+            
+            // Show selected section
+            switch(section) {
+                case 'home':
+                    document.getElementById('home-section').style.display = 'block';
+                    document.getElementById('main-section').style.display = 'block';
+                    break;
+                case 'recommendations':
+                    document.getElementById('recommendations-section').style.display = 'block';
+                    break;
+                case 'loans':
+                    document.getElementById('loans-section').style.display = 'block';
+                    break;
+                case 'mypage':
+                    document.getElementById('mypage-section').style.display = 'block';
+                    break;
+            }
+        }
+
+        // Tab switching
+        function switchTab(element, tabName) {
+            // Remove active class from all tabs
+            const tabs = element.parentElement.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            element.classList.add('active');
+            
+            console.log('Switching to tab:', tabName);
+        }
+
+        // Filter functions
+        function resetFilters() {
+            // Reset all filter selections
+            document.getElementById('region').value = '';
+            document.getElementById('district').value = '';
+            document.getElementById('area').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('moveInDate').value = '';
+            document.getElementById('applicationType').value = '';
+            
+            alert('필터가 초기화되었습니다.');
+            applyFilters();
+        }
+
+        function applyFilters() {
+            // Get filter values
+            const filters = {
+                region: document.getElementById('region').value,
+                district: document.getElementById('district').value,
+                area: document.getElementById('area').value,
+                price: document.getElementById('price').value,
+                moveInDate: document.getElementById('moveInDate').value,
+                applicationType: document.getElementById('applicationType').value
+            };
+            
+            console.log('Applied filters:', filters);
+            alert('필터가 적용되었습니다. (실제로는 백엔드 연동이 필요합니다)');
+        }
+
+        function openFilterSettings() {
+            const filterSection = document.getElementById('filterSection');
+            filterSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateMyInfo() {
+            alert('내 정보 수정 페이지로 이동합니다. (백엔드 연동 필요)');
+        }
+
+        // Loan filter functions
+        function resetLoanFilters() {
+            document.getElementById('loanType').value = '';
+            document.getElementById('bank').value = '';
+            document.getElementById('interestRate').value = '';
+            document.getElementById('loanLimit').value = '';
+            document.getElementById('loanPeriod').value = '';
+            document.getElementById('specialBenefit').value = '';
+            
+            alert('대출 필터가 초기화되었습니다.');
+            applyLoanFilters();
+        }
+
+        function applyLoanFilters() {
+            const loanFilters = {
+                loanType: document.getElementById('loanType').value,
+                bank: document.getElementById('bank').value,
+                interestRate: document.getElementById('interestRate').value,
+                loanLimit: document.getElementById('loanLimit').value,
+                loanPeriod: document.getElementById('loanPeriod').value,
+                specialBenefit: document.getElementById('specialBenefit').value
+            };
+            
+            console.log('Applied loan filters:', loanFilters);
+            alert('대출 필터가 적용되었습니다. (실제로는 백엔드 연동이 필요합니다)');
+        }
+
+        function openLoanCalculator() {
+            alert('대출 계산기를 열겠습니다. (별도 페이지 연동 필요)');
+        }
+
+        function updateIncomeInfo() {
+            alert('소득정보 수정 페이지로 이동합니다. (백엔드 연동 필요)');
+        }
+
+        // Modal functions
+        function showModal(type) {
+            const modal = document.getElementById('authModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const submitBtn = document.getElementById('submitBtn');
+            const nameGroup = document.getElementById('nameGroup');
+            const phoneGroup = document.getElementById('phoneGroup');
+            const ssnGroup = document.getElementById('ssnGroup');
+            const toggleText = document.getElementById('toggleText');
+            
+            if (type === 'login') {
+                modalTitle.textContent = '로그인';
+                submitBtn.textContent = '로그인';
+                nameGroup.style.display = 'none';
+                phoneGroup.style.display = 'none';
+                ssnGroup.style.display = 'none';
+                toggleText.innerHTML = '계정이 없으신가요? <a href="#" onclick="toggleAuthMode()">회원가입</a>';
+            } else {
+                modalTitle.textContent = '회원가입';
+                submitBtn.textContent = '회원가입';
+                nameGroup.style.display = 'block';
+                phoneGroup.style.display = 'block';
+                ssnGroup.style.display = 'block';
+                toggleText.innerHTML = '이미 계정이 있으신가요? <a href="#" onclick="toggleAuthMode()">로그인</a>';
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('authModal').classList.remove('active');
+        }
+
+        function toggleAuthMode() {
+            const modalTitle = document.getElementById('modalTitle');
+            if (modalTitle.textContent === '로그인') {
+                showModal('signup');
+            } else {
+                showModal('login');
+            }
+        }
+
+        // Input formatting functions
+        function formatPhoneInput() {
+            const phone1 = document.getElementById('phone1');
+            const phone2 = document.getElementById('phone2');
+            const phone3 = document.getElementById('phone3');
+            
+            // Move to next field automatically
+            phone1.addEventListener('input', function() {
+                if (this.value.length === 3) {
+                    phone2.focus();
+                }
+                // Only allow numbers
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+            
+            phone2.addEventListener('input', function() {
+                if (this.value.length === 4) {
+                    phone3.focus();
+                }
+                // Only allow numbers
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+            
+            phone3.addEventListener('input', function() {
+                // Only allow numbers
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        }
+
+        function formatSSNInput() {
+            const ssn1 = document.getElementById('ssn1');
+            const ssn2 = document.getElementById('ssn2');
+            
+            ssn1.addEventListener('input', function() {
+                if (this.value.length === 6) {
+                    ssn2.focus();
+                }
+                // Only allow numbers
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+            
+            ssn2.addEventListener('input', function() {
+                // Only allow numbers
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('authModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Form submission
+        document.getElementById('authForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const modalTitle = document.getElementById('modalTitle');
+            
+            if (modalTitle.textContent === '로그인') {
+                alert('로그인 기능은 백엔드 연동이 필요합니다.');
+            } else {
+                // Validate phone number and SSN for signup
+                const phone1 = document.getElementById('phone1').value;
+                const phone2 = document.getElementById('phone2').value;
+                const phone3 = document.getElementById('phone3').value;
+                const ssn1 = document.getElementById('ssn1').value;
+                const ssn2 = document.getElementById('ssn2').value;
+                
+                if (phone1.length !== 3 || phone2.length !== 4 || phone3.length !== 4) {
+                    alert('전화번호를 올바르게 입력해주세요.');
+                    return;
+                }
+                
+                if (ssn1.length !== 6 || ssn2.length !== 7) {
+                    alert('주민등록번호를 올바르게 입력해주세요.');
+                    return;
+                }
+                
+                const fullPhone = phone1 + '-' + phone2 + '-' + phone3;
+                const fullSSN = ssn1 + '-' + ssn2;
+                
+                console.log('전화번호:', fullPhone);
+                console.log('주민등록번호:', fullSSN);
+                
+                alert('회원가입 기능은 백엔드 연동이 필요합니다.');
+            }
+            
+            closeModal();
+        });
+
+        // Chat functionality
+        document.querySelector('.chat-send').addEventListener('click', function() {
+            const input = document.querySelector('.chat-input');
+            const chatBody = document.querySelector('.chat-body');
+            
+            if (input.value.trim()) {
+                // Add user message
+                const userMessage = document.createElement('div');
+                userMessage.style.cssText = 'background: #e3f2fd; padding: 1rem; border-radius: 12px; margin-bottom: 1rem; text-align: right;';
+                userMessage.textContent = input.value;
+                chatBody.appendChild(userMessage);
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    const aiMessage = document.createElement('div');
+                    aiMessage.style.cssText = 'background: #f1f3f4; padding: 1rem; border-radius: 12px; margin-bottom: 1rem;';
+                    aiMessage.textContent = '네, 무엇을 도와드릴까요? 청약이나 대출에 대해 자세히 알려드리겠습니다.';
+                    chatBody.appendChild(aiMessage);
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                }, 1000);
+                
+                input.value = '';
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        });
+
+        // Enter key for chat
+        document.querySelector('.chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.chat-send').click();
+            }
+        });
+
+        // Add hover effects to cards
+        document.querySelectorAll('.loan-card').forEach(card => {
+            card.addEventListener('click', function() {
+                alert('상세 정보 페이지는 백엔드 연동이 필요합니다.');
+            });
+        });
+
+        // Initialize
+        window.addEventListener('load', function() {
+            // Initialize input formatting
+            formatPhoneInput();
+            formatSSNInput();
+            
+            // Add animation to elements
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeInUp 0.6s ease both';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.service-card, .loan-card').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

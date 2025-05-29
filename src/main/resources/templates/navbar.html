@@ -1,26 +1,23 @@
-<nav th:fragment="navbarFragment" class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-	<div class="container-fluid">
-		<a class="navbar-brand" href="/">청약정보제공서비스</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item">
-					<a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
-					<a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/user/signup}">회원가입</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/map}">지도</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/chatbot}">챗봇</a>
-				</li>
-			</ul>
-		</div>
+<nav th:fragment="navbarFragment" class="nav-container">
+	<a href="#" class="logo" onclick="showSection('home')">
+		<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M100 20L140 50V90L120 105V150L100 165L80 150V105L60 90V50L100 20Z" stroke="#2c3e50" stroke-width="8" fill="none"/>
+			<path d="M80 70L95 85L120 60" stroke="#3498db" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+			<circle cx="140" cy="130" r="15" fill="#3498db"/>
+			<text x="100" y="190" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#2c3e50">fit</text>
+		</svg>
+		청약Fit
+	</a>
+
+	<ul class="nav-menu">
+		<li><a onclick="showSection('home')">홈</a></li>
+		<li><a onclick="showSection('recommendations')">맞춤공고</a></li>
+		<li><a onclick="showSection('loans')">대출추천</a></li>
+		<li><a onclick="showSection('mypage')">마이페이지</a></li>
+	</ul>
+
+	<div class="auth-buttons">
+		<button class="btn btn-outline" onclick="showModal('login')">로그인</button>
+		<button class="btn btn-primary" onclick="showModal('signup')">회원가입</button>
 	</div>
 </nav>
