@@ -10,11 +10,11 @@
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
             <h4>청약Fit AI 상담사</h4>
-            <button onclick="toggleChat()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">×</button>
+            <button onclick="closeChatWithFeedback()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">×</button>
         </div>
         <div class="chat-body">
             <div style="background: #f1f3f4; padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
-                안녕하세요! 청약과 대출에 대해 궁금하신 점이 있으신가요? 무엇이든 물어보세요! 😊
+                안녕하세요! 청약과 대출에 대해 궁금하신 점이 있으신가요? 무엇이든 물어보세요! 😊 (주민등록번호 등 개인정보를 입력하지 않도록 주의해주세요!)
             </div>
         </div>
         <div class="notice-select-container" style="padding: 0.5rem; border-top: 1px solid #e0e0e0;">
@@ -29,6 +29,15 @@
                     <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
                 </svg>
             </button>
+        </div>
+    </div>
+
+    <!-- Feedback Dialog -->
+    <div class="feedback-dialog" id="feedbackDialog" style="display: none; position: fixed; bottom: 100px; right: 20px; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000;">
+        <p style="margin-bottom: 1rem;">지금 대화에 만족하셨나요?</p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <button onclick="submitFeedback(true)" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">👍</button>
+            <button onclick="submitFeedback(false)" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">👎</button>
         </div>
     </div>
 </div>
@@ -73,6 +82,43 @@
         if (chatWindow.classList.contains('active')) {
             checkLoginStatus();
         }
+    }
+
+    // Close chat with feedback
+    function closeChatWithFeedback() {
+        const feedbackDialog = document.getElementById('feedbackDialog');
+        feedbackDialog.style.display = 'block';
+    }
+
+    // Submit feedback
+    function submitFeedback(isPositive) {
+        const feedbackDialog = document.getElementById('feedbackDialog');
+        const chatWindow = document.getElementById('chatWindow');
+        
+        // Send feedback to server
+        fetch('/chatbot/feedback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                isPositive: isPositive
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('피드백 전송에 실패했습니다.');
+            }
+            // Close both dialogs
+            feedbackDialog.style.display = 'none';
+            chatWindow.classList.remove('active');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Close dialogs even if feedback fails
+            feedbackDialog.style.display = 'none';
+            chatWindow.classList.remove('active');
+        });
     }
 
     // Chat functionality
