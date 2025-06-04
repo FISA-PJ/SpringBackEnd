@@ -1,0 +1,247 @@
+<html layout:decorate="~{layout}">
+<th:block layout:fragment="head">
+  <title>대출 상품 목록 - 청약핏</title>
+</th:block>
+<div layout:fragment="content" class="container my-5">
+  <!-- Loan Section -->
+  <div class="page-section" id="loans-section">
+    <!-- Summary Box for Loans -->
+    <div class="summary-box">
+      <h3 class="summary-title">
+        💰 내 대출 정보 요약
+      </h3>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <h4>💳 신용점수</h4>
+          <p>820점 (우수)</p>
+          <small>KB신용정보 기준</small>
+        </div>
+        <div class="summary-item">
+          <h4>💼 소득정보</h4>
+          <p>연소득 7,200만원</p>
+          <small>근로소득 기준</small>
+        </div>
+        <div class="summary-item">
+          <h4>🏦 추천 상품</h4>
+          <p>12개 상품</p>
+          <small>신용도 + 소득 + 나이 기준</small>
+        </div>
+        <div class="summary-item">
+          <h4>🎯 예상 한도</h4>
+          <p>최대 4.5억원</p>
+          <small>DSR 40% 기준</small>
+        </div>
+      </div>
+      <div class="summary-actions">
+        <button onclick="resetLoanFilters()">📌 필터 초기화</button>
+        <button onclick="openLoanCalculator()">🧮 대출 계산기</button>
+        <button onclick="updateIncomeInfo()">📝 소득정보 수정</button>
+      </div>
+    </div>
+
+    <!-- Loan Filter Section -->
+    <div class="filter-section">
+      <h3 class="filter-title">
+        🔍 대출 상품 필터
+      </h3>
+      <div class="filter-grid">
+        <div class="filter-group">
+          <label for="bank">은행</label>
+          <select id="bank">
+            <option value="">전체</option>
+            <option value="kb">국민은행</option>
+            <option value="sh">신한은행</option>
+            <option value="wr">우리은행</option>
+            <option value="hn">하나은행</option>
+            <option value="other">기타</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="interestRate">금리범위</label>
+          <select id="interestRate">
+            <option value="">전체</option>
+            <option value="under3">3% 미만</option>
+            <option value="3to4">3~4%</option>
+            <option value="4to5">4~5%</option>
+            <option value="over5">5% 이상</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="loanLimit">대출한도</label>
+          <select id="loanLimit">
+            <option value="">전체</option>
+            <option value="under2">2억 미만</option>
+            <option value="2to3">2~3억</option>
+            <option value="3to5">3~5억</option>
+            <option value="over5">5억 이상</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="loanPeriod">대출기간</label>
+          <select id="loanPeriod">
+            <option value="">전체</option>
+            <option value="under10">10년 미만</option>
+            <option value="10to20">10~20년</option>
+            <option value="20to30">20~30년</option>
+            <option value="over30">30년 초과</option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-actions">
+        <button class="btn btn-secondary" onclick="resetLoanFilters()">초기화</button>
+        <button class="btn btn-primary" onclick="applyLoanFilters()">필터 적용</button>
+      </div>
+    </div>
+
+    <div class="recommendations">
+      <h2 class="section-title">맞춤 대출 상품</h2>
+      <div class="tab-container">
+        <!-- <button class="tab active" onclick="switchTab(this, 'mortgage')">주택담보대출</button>
+        <button class="tab" onclick="switchTab(this, 'jeonse')">전세자금대출</button>
+        <button class="tab" onclick="switchTab(this, 'policy')">정책대출</button> -->
+      </div>
+
+      <div class="recommendation-grid">
+        <div th:each="loan : ${mortgageLoans}" class="loan-card">
+          <div class="loan-card-header">
+            <div class="loan-bank-name" th:text="${loan.bankName}">은행명</div>
+            <div class="loan-product-name" th:text="${loan.name}">상품명</div>
+            <span class="loan-highlight" th:if="${loan.firstHomeOnly}">생애최초</span>
+            <span class="loan-highlight" th:if="${loan.targetGroup != null}" th:text="${loan.targetGroup}">타겟</span>
+          </div>
+          <div class="loan-card-body">
+            <div class="loan-info-row">
+              <span class="loan-label">대출금리</span>
+              <span class="loan-rate" th:text="${loan.rateMin + '% ~ ' + loan.rateMax + '%'}">금리</span>
+            </div>
+            <div class="loan-info-row">
+              <span class="loan-label">대출한도</span>
+              <span class="loan-value" th:text="${#numbers.formatInteger(loan.loanLimit/100000000, 0, 'COMMA') + '억원'}">한도</span>
+            </div>
+            <div class="loan-info-row">
+              <span class="loan-label">대출기간</span>
+              <span class="loan-value" th:text="${loan.loanTerm/12 + '년'}">기간</span>
+            </div>
+            <div class="loan-benefits">
+              <div class="loan-benefits-title">주요혜택</div>
+              <div class="loan-benefits-list">
+                <span class="benefit-tag" th:if="${loan.firstHomeOnly}">생애최초 우대</span>
+                <span class="benefit-tag" th:if="${loan.targetGroup != null}" th:text="${loan.targetGroup + ' 우대'}">타겟 우대</span>
+                <span class="benefit-tag" th:text="${loan.repaymentMethod}">상환방식</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+    // Tab switching
+    function switchTab(element, tabName) {
+      // Remove active class from all tabs
+      const tabs = element.parentElement.querySelectorAll('.tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      // Add active class to clicked tab
+      element.classList.add('active');
+
+      // 대출 상품 데이터 가져오기
+      fetch(`/loan/api/products?loanType=${tabName}`)
+        .then(response => response.json())
+        .then(loans => {
+          const recommendationGrid = document.querySelector('.recommendation-grid');
+          recommendationGrid.innerHTML = '';
+
+          loans.forEach(loan => {
+            const loanCard = createLoanCard(loan);
+            recommendationGrid.appendChild(loanCard);
+          });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('대출 상품을 불러오는데 실패했습니다.');
+        });
+    }
+
+    // 대출 상품 필터 초기화
+    function resetLoanFilters() {
+      document.getElementById('bank').value = '';
+      document.getElementById('interestRate').value = '';
+      document.getElementById('loanLimit').value = '';
+      document.getElementById('loanPeriod').value = '';
+      
+      // 필터 초기화 후 데이터 다시 로드
+      applyLoanFilters();
+    }
+
+    // 대출 상품 필터 적용
+    function applyLoanFilters() {
+      const filters = {
+        bank: document.getElementById('bank').value === '전체' ? '' : document.getElementById('bank').value,
+        interestRate: document.getElementById('interestRate').value === '전체' ? '' : document.getElementById('interestRate').value,
+        loanLimit: document.getElementById('loanLimit').value === '전체' ? '' : document.getElementById('loanLimit').value,
+        loanPeriod: document.getElementById('loanPeriod').value === '전체' ? '' : document.getElementById('loanPeriod').value
+      };
+      
+      // 필터링된 데이터 가져오기
+      fetch(`/loan/api/filter?${new URLSearchParams(filters)}`)
+        .then(response => response.json())
+        .then(data => {
+          // 대출 상품 목록 업데이트
+          const recommendationGrid = document.querySelector('.recommendation-grid');
+          recommendationGrid.innerHTML = '';
+          
+          data.content.forEach(loan => {
+            const loanCard = createLoanCard(loan);
+            recommendationGrid.appendChild(loanCard);
+          });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('필터링된 대출 상품을 불러오는데 실패했습니다.');
+        });
+    }
+
+    // 대출 상품 카드 생성 함수
+    function createLoanCard(loan) {
+      const div = document.createElement('div');
+      div.className = 'loan-card';
+      
+      div.innerHTML = `
+        <div class="loan-card-header">
+          <div class="loan-bank-name">${loan.bankName}</div>
+          <div class="loan-product-name">${loan.name}</div>
+          ${loan.firstHomeOnly ? '<span class="loan-highlight">생애최초</span>' : ''}
+          ${loan.targetGroup ? `<span class="loan-highlight">${loan.targetGroup}</span>` : ''}
+        </div>
+        <div class="loan-card-body">
+          <div class="loan-info-row">
+            <span class="loan-label">대출금리</span>
+            <span class="loan-rate">${loan.rateMin}% ~ ${loan.rateMax}%</span>
+          </div>
+          <div class="loan-info-row">
+            <span class="loan-label">대출한도</span>
+            <span class="loan-value">${(loan.loanLimit/100000000).toLocaleString()}억원</span>
+          </div>
+          <div class="loan-info-row">
+            <span class="loan-label">대출기간</span>
+            <span class="loan-value">${loan.loanTerm/12}년</span>
+          </div>
+          <div class="loan-benefits">
+            <div class="loan-benefits-title">주요혜택</div>
+            <div class="loan-benefits-list">
+              ${loan.firstHomeOnly ? '<span class="benefit-tag">생애최초 우대</span>' : ''}
+              ${loan.targetGroup ? `<span class="benefit-tag">${loan.targetGroup} 우대</span>` : ''}
+              <span class="benefit-tag">${loan.repaymentMethod}</span>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      return div;
+    }
+  </script>
+</th:block>

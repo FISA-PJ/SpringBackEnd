@@ -1,23 +1,55 @@
 <nav th:fragment="navbarFragment" class="nav-container">
-	<a href="#" class="logo" onclick="showSection('home')">
-		<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<path d="M100 20L140 50V90L120 105V150L100 165L80 150V105L60 90V50L100 20Z" stroke="#2c3e50" stroke-width="8" fill="none"/>
-			<path d="M80 70L95 85L120 60" stroke="#3498db" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-			<circle cx="140" cy="130" r="15" fill="#3498db"/>
-			<text x="100" y="190" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#2c3e50">fit</text>
-		</svg>
-		청약Fit
+
+	<a class="navbar-brand" href="/">
+		<img th:src="@{/images/applyhome_logo.png}" height="40">
 	</a>
 
 	<ul class="nav-menu">
-		<li><a onclick="showSection('home')">홈</a></li>
-		<li><a onclick="showSection('recommendations')">맞춤공고</a></li>
-		<li><a onclick="showSection('loans')">대출추천</a></li>
-		<li><a onclick="showSection('mypage')">마이페이지</a></li>
+		<li class="nav-item"><a class="nav-link text-white" href="/">홈</a></li>
+		<li class="nav-item"><a class="nav-link text-white" href="/notice/list">맞춤공고</a></li>
+		<li class="nav-item"><a class="nav-link text-white" href="/loan/list">대출추천</a></li>
+		<li class="nav-item">
+			<a class="nav-link text-white" href="#" 
+			   th:onclick="'return checkAuth()'" 
+			   sec:authorize="isAuthenticated()" 
+			   th:href="@{/mypage}">마이페이지</a>
+			<a class="nav-link text-white" href="#" 
+			   th:onclick="'return checkAuth()'" 
+			   sec:authorize="!isAuthenticated()">마이페이지</a>
+		</li>
 	</ul>
 
 	<div class="auth-buttons">
-		<button class="btn btn-outline" onclick="showModal('login')">로그인</button>
+<!--		<li class="nav-item py-2" sec:authorize="isAuthenticated()">-->
+<!--			<span class="navbar-text text-white" th:if="${primeType != null}" th:text="${primeType} "></span>-->
+<!--		</li>-->
+<!--		<li class="nav-item py-2" sec:authorize="isAuthenticated()">-->
+<!--			<span class="navbar-text text-white" th:if="${personalName != null}" th:text="${personalName + '님 환영합니다'}"></span>-->
+<!--		</li>-->
+		<!-- <div class="navbar-text" sec:authorize="isAuthenticated()" th:text="${primeType} "></div> -->
+		<div class="navbar-text" sec:authorize="isAuthenticated()" th:text="${personalName + '님 환영합니다'}" 
+             style="margin: auto 0px;"></div>
+		<button class="btn btn-outline" sec:authorize="isAnonymous()" onclick="showModal('login')">로그인</button>
+		<button class="btn btn-outline" sec:authorize="isAuthenticated()" onclick="location.href='/user/logout'">로그아웃</button>
+<!--			<a class="nav-link text-white" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>-->
+<!--			<a class="nav-link text-white" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>-->
+<!--		</li>-->
+<!--		-->
+<!--		-->
+<!--		<button class="btn btn-outline" onclick="showModal('login')">로그인</button>-->
 		<button class="btn btn-primary" onclick="showModal('signup')">회원가입</button>
 	</div>
 </nav>
+
+<script th:inline="javascript">
+function checkAuth() {
+    /*<![CDATA[*/
+    const isAuthenticated = /*[[${#authorization.expression('isAuthenticated()')}]]*/ false;
+    if (!isAuthenticated) {
+        alert('로그인이 필요한 페이지입니다.');
+        return false;
+    }
+    return true;
+    /*]]>*/
+}
+</script>

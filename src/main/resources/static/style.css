@@ -280,7 +280,7 @@ body {
 /* Section styling */
 .page-section {
     max-width: 1200px;
-    margin: 2rem auto;
+    margin: calc(80px + 2rem) auto 2rem auto;
     padding: 0 2rem;
     min-height: calc(100vh - 200px);
 }
@@ -508,6 +508,11 @@ body {
 .card-badge.hot {
     background: #ffebee;
     color: #c62828;
+}
+
+.card-badge.over {
+    background: #cccccc;
+    color: #4a494a;
 }
 
 /* Map View Styles */

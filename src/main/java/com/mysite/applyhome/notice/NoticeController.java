@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 
 import com.mysite.applyhome.housingSubscriptionEligibility.HousingSubscriptionEligibilityService;
 import com.mysite.applyhome.user.SiteUserDetails;
@@ -28,10 +30,18 @@ public class NoticeController {
 
     // 공고 목록 페이지
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
-        Page<Notice> paging = this.noticeService.getList(page);
+    public String list(Model model, 
+                      @RequestParam(value = "page", defaultValue = "0") int page,
+                      @RequestParam(value = "keyword", required = false) String keyword) {
+        Page<Notice> paging;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            paging = this.noticeService.searchNotices(keyword.trim(), PageRequest.of(page, 10));
+        } else {
+            paging = this.noticeService.getList(page);
+        }
         model.addAttribute("paging", paging);
         model.addAttribute("kakaoApiKey", kakaoApiKey);
+        model.addAttribute("keyword", keyword);
         return "notice_list";
     }
 
@@ -102,5 +112,31 @@ public class NoticeController {
         model.addAttribute("paging", paging);
         model.addAttribute("kakaoApiKey", kakaoApiKey);
         return "notice_list";
+    }
+
+    // 맞춤 공고 데이터를 JSON으로 반환
+    @GetMapping("/api/custom")
+    @ResponseBody
+    public Page<Notice> getCustomNotices(@RequestParam(value = "page", defaultValue = "0") int page,
+                                        @AuthenticationPrincipal SiteUserDetails userDetails) {
+        if (userDetails == null) {
+            throw new RuntimeException("로그인이 필요합니다.");
+        }
+
+        String primeType = eligibilityService.getEligibilityPrimeType(userDetails.getUser());
+        return noticeService.getNoticesByPrimeType(primeType, page);
+    }
+
+    // 필터링된 공고 데이터를 JSON으로 반환
+    @GetMapping("/api/filter")
+    @ResponseBody
+    public Page<Notice> getFilteredNotices(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "region", required = false) String region,
+            @RequestParam(value = "area", required = false) String area,
+            @RequestParam(value = "price", required = false) String price,
+            @RequestParam(value = "moveInDate", required = false) String moveInDate) {
+        
+        return noticeService.getFilteredNotices(page, region, area, price, moveInDate);
     }
 } 

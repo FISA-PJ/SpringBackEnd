@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,6 +32,9 @@ public class Notice {
     @Column(name = "application_end_date", nullable = false)
     private LocalDate applicationEndDate;
 
+    @Column(name = "move_in_date")
+    private String moveInDate;
+
     @Column(name = "location", length = 255)
     private String location;
 
@@ -39,6 +44,9 @@ public class Notice {
 
     @Column(name = "is_correction")
     private Boolean isCorrection;
+
+//    @OneToMany(mappedBy = "notice", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<HouseType> houseTypes = new ArrayList<>();
 }
 
 enum NoticeStatus {
