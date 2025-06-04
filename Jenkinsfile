@@ -22,6 +22,7 @@ pipeline {
 
     stage('Build JAR') {
       steps {
+	sh 'chmod +x gradlew'
         sh './gradlew build'
       }
     }
