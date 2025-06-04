@@ -4,6 +4,8 @@ import com.mysite.applyhome.housingSubscriptionEligibility.HousingSubscriptionEl
 import com.mysite.applyhome.notice.Notice;
 import com.mysite.applyhome.notice.NoticeService;
 import com.mysite.applyhome.user.SiteUserDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/chatbot")
 public class ChatController {
 
+    private static final Logger log = LoggerFactory.getLogger(ChatController.class);
     private final RestTemplate restTemplate = new RestTemplate();
     private final NoticeService noticeService;
     private final HousingSubscriptionEligibilityService eligibilityService;

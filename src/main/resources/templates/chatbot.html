@@ -34,6 +34,8 @@
 </div>
 
 <script th:fragment="chatbotScript">
+    let isLoggedIn = false;
+
     // Check login status and fetch notices
     function checkLoginStatus() {
         fetch('/chatbot/check-auth')
