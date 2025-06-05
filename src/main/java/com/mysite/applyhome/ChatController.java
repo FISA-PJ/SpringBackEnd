@@ -90,12 +90,9 @@ public class ChatController {
             userInfo.put("subType", "");
         }
         
-        System.out.println(userInfo);
-        
         request.put("user_info", userInfo);
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
-        System.out.println(entity);
 
         // FastAPI 서버 주소
         String fastApiUrl = "http://localhost:8000/api/chatbot";

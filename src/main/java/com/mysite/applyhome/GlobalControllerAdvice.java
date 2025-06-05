@@ -26,11 +26,8 @@ public class GlobalControllerAdvice {
     @ModelAttribute("primeType")
     public String populatePrimeType(Authentication authentication) {
         if (authentication != null && authentication.getPrincipal() instanceof SiteUserDetails) {
-//            String primeType = eligibilityService.getEligibilityPrimeType(userService.getUser(principal.getName()));
-//            return ResponseEntity.ok(primeType);
             SiteUserDetails userDetails = (SiteUserDetails) authentication.getPrincipal();
             return eligibilityService.getEligibilityPrimeType(userDetails.getUser());
-                   // .getPersonalProfiles().getPersonalName();
         }
         return null;
     }

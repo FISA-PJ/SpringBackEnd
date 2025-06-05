@@ -22,7 +22,6 @@ public class UserService {
 	public Users create(String username, String residentId, String password) {
 		Users users = new Users();
 		users.setUserLoginId(username);
-//		users.setUserRegistrationNumber(residentId);
 
 		PersonalProfiles profile = personalProfilesRepository.findByResidentRegistrationNumber(residentId);
 		users.setPersonalProfiles(profile);

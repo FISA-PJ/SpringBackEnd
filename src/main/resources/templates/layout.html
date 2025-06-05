@@ -28,10 +28,6 @@
         <th:block layout:fragment="script"></th:block>
         <!-- 자바스크립트 End -->
 
-<!--        <script>-->
-<!--            // 전역 변수로 로그인 상태 관리-->
-<!--            var isLoggedIn = /*[[${#authentication.principal != 'anonymousUser'}]]*/ false;-->
-<!--        </script>-->
         <script th:replace="~{chatbot :: chatbotScript}"></script>
         <script th:replace="~{login_signup :: loginScript}"></script>
     </body>

@@ -21,10 +21,6 @@ public class HousingSubscriptionEligibilityController {
     private final HousingSubscriptionEligibilityService eligibilityService;
     private final UserService userService;
 
-//    public HousingSubscriptionEligibilityController(HousingSubscriptionEligibilityService eligibilityService) {
-//        this.eligibilityService = eligibilityService;
-//    }
-
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/prime-type")
     public ResponseEntity<?> getEligibilityPrimeType(Principal principal) {
@@ -33,8 +29,6 @@ public class HousingSubscriptionEligibilityController {
             System.out.println("user null");
             return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
-//        System.out.println("user not null");
-//        System.out.println(user);
         try {
             String primeType = eligibilityService.getEligibilityPrimeType(userService.getUser(principal.getName()));
             return ResponseEntity.ok(primeType);

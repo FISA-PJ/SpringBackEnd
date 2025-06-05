@@ -25,15 +25,6 @@ public class Users {
 	@Column(name = "user_password_hash", nullable = false, length = 255)
 	private String userPasswordHash;
 
-//	@Column(name = "user_type", nullable = false, columnDefinition = "ENUM('admin', 'personal', 'reviewer') DEFAULT 'personal'")
-//	private String userType = "personal";
-
-//	@Column(name = "user_registration_date", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
-//	private LocalDateTime userRegistrationDate;
-//
-//	@Column(name = "user_last_login_date")
-//	private LocalDateTime userLastLoginDate;
-
 	@OneToOne
 	@JoinColumn(
 			name = "resident_registration_number",
@@ -43,6 +34,4 @@ public class Users {
 			foreignKey = @ForeignKey(name = "FK_Personal_Profiles_TO_Users")
 	)
 	private PersonalProfiles personalProfiles;
-
-	// Getters and setters
 }
