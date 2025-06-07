@@ -774,8 +774,8 @@ body {
     position: fixed;
     bottom: 6rem;
     right: 2rem;
-    width: 320px;
-    height: 400px;
+    width: 600px;
+    height: 500px;
     background: var(--white);
     border-radius: 16px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.2);

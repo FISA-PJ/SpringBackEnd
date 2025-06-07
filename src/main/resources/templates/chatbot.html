@@ -141,6 +141,14 @@
             userMessage.textContent = input.value;
             chatBody.appendChild(userMessage);
 
+            // Add loading message
+            const loadingMessage = document.createElement('div');
+            loadingMessage.style.cssText = 'background: #f1f3f4; padding: 1rem; border-radius: 12px; margin-bottom: 1rem;';
+            loadingMessage.textContent = '...';
+            loadingMessage.id = 'loadingMessage';
+            chatBody.appendChild(loadingMessage);
+            chatBody.scrollTop = chatBody.scrollHeight;
+
             // Send message to API
             fetch('/chatbot/api', {
                 method: 'POST',
@@ -154,6 +162,12 @@
             })
             .then(response => response.json())
             .then(data => {
+                // Remove loading message
+                const loadingElement = document.getElementById('loadingMessage');
+                if (loadingElement) {
+                    loadingElement.remove();
+                }
+
                 const aiMessage = document.createElement('div');
                 aiMessage.style.cssText = 'background: #f1f3f4; padding: 1rem; border-radius: 12px; margin-bottom: 1rem;';
                 aiMessage.textContent = data.reply;
@@ -161,6 +175,12 @@
                 chatBody.scrollTop = chatBody.scrollHeight;
             })
             .catch(error => {
+                // Remove loading message
+                const loadingElement = document.getElementById('loadingMessage');
+                if (loadingElement) {
+                    loadingElement.remove();
+                }
+
                 console.error('Error:', error);
                 const errorMessage = document.createElement('div');
                 errorMessage.style.cssText = 'background: #ffebee; padding: 1rem; border-radius: 12px; margin-bottom: 1rem;';

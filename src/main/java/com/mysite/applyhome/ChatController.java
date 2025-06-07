@@ -78,12 +78,14 @@ public class ChatController {
         Map<String, String> userInfo = new HashMap<>();
         
         if (userDetails != null && userDetails.getUser() != null && userDetails.getUser().getPersonalProfiles() != null) {
+            request.put("userId", userDetails.getUsername());
             userInfo.put("registrationNumber", userDetails.getUser().getPersonalProfiles().getResidentRegistrationNumber());
             userInfo.put("userName", userDetails.getUser().getPersonalProfiles().getPersonalName());
             userInfo.put("primeType", eligibilityService.getEligibilityPrimeType(userDetails.getUser()));
             userInfo.put("subType", eligibilityService.getEligibilitySubType(userDetails.getUser()));
         } else {
             // userDetails가 null인 경우 모든 필드를 빈 문자열로 설정
+            request.put("userId", "");
             userInfo.put("registrationNumber", "");
             userInfo.put("userName", "");
             userInfo.put("primeType", "");
