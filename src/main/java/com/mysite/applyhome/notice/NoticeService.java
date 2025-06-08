@@ -22,9 +22,27 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
     private final SupplyTypeRepository supplyTypeRepository;
 
+    private int getStatusOrder(NoticeStatus status) {
+        switch (status) {
+            case 접수중:
+                return 1;
+            case 접수마감:
+                return 2;
+            case 결과발표:
+                return 3;
+            default:
+                return 4;
+        }
+    }
+
+    Sort sort = Sort.by(
+            Sort.Order.by("noticeStatus"),
+            Sort.Order.asc("applicationEndDate")
+    );
+
     // 모든 공고 목록 조회 (페이징 처리)
     public Page<Notice> getList(int page) {
-        Pageable pageable = PageRequest.of(page, 100, Sort.by("postDate").descending());
+        Pageable pageable = PageRequest.of(page, 100, sort);
         return this.noticeRepository.findAll(pageable);
     }
 
@@ -66,7 +84,7 @@ public class NoticeService {
 
     // 사용자 유형에 따른 공고 조회
     public Page<Notice> getNoticesByPrimeType(String primeType, int page) {
-        Pageable pageable = PageRequest.of(page, 10, Sort.by("postDate").descending());
+        Pageable pageable = PageRequest.of(page, 100, sort);
         
         List<Long> noticeIds;
         if ("특별공급유형 아님".equals(primeType)) {
@@ -83,7 +101,7 @@ public class NoticeService {
     }
 
     public Page<Notice> getFilteredNotices(int page, String region, String area, String price, String moveInDate) {
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 100, sort);
         Specification<Notice> spec = Specification.where(null);
 
         // 지역 필터링

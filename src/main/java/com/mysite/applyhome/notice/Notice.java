@@ -42,5 +42,17 @@ public class Notice {
 }
 
 enum NoticeStatus {
-    접수중, 접수마감, 결과발표
+    접수중(1),
+    접수마감(2),
+    결과발표(3);
+
+    private final int order;
+
+    NoticeStatus(int order) {
+        this.order = order;
+    }
+
+    public int getOrder() {
+        return order;
+    }
 } 
