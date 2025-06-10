@@ -3,7 +3,7 @@ pipeline {
   // tools 섹션 제거 (Java 17 설정 없이 진행)
   environment {
     // Docker 이미지 설정
-    DOCKER_IMAGE = 'jaerimw/sprint-backend'
+    DOCKER_IMAGE = 'jaerimw/spring-backend'
     DOCKERHUB_CREDENTIALS_ID = 'docker-hub'
     // Kubernetes 설정
     KUBECONFIG_CREDENTIALS_ID = 'kubeconfig'
