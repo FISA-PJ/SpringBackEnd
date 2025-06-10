@@ -1,12 +1,9 @@
 pipeline {
   agent any
-  // Java 17 환경 설정
-  tools {
-    jdk 'Java17'  // Jenkins에서 Java 17 설정 필요
-  }
+  // tools 섹션 제거 (Java 17 설정 없이 진행)
   environment {
     // Docker 이미지 설정
-    DOCKER_IMAGE = 'jaerimw/backend'
+    DOCKER_IMAGE = 'jaerimw/sprint-backend'
     DOCKERHUB_CREDENTIALS_ID = 'docker-hub'
     // Kubernetes 설정
     KUBECONFIG_CREDENTIALS_ID = 'kubeconfig'
@@ -15,10 +12,6 @@ pipeline {
     // 애플리케이션 설정
     CONTAINER_PORT = '8080'
     SERVICE_PORT = '80'
-
-    // Java 버전 설정
-    JAVA_HOME = "${tool 'Java17'}"
-    PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
   }
   triggers {
     githubPush()
